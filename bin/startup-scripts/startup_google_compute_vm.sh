@@ -19,8 +19,8 @@ get_env "TILE_DST"
 source $env_file
 
 curl -L "$script_src/processing-scripts/1_setup.sh" | sudo bash
-curl -L "$script_src/processing-scripts/2_prepare_tilemaker.sh" | sudo bash
-curl -L "$script_src/processing-scripts/3_convert.sh" | sudo bash
+curl -L "$script_src/processing-scripts/2_prepare_tilemaker.sh" | bash
+curl -L "$script_src/processing-scripts/3_convert.sh" | bash
 
 cd ~/tilemaker/build/shortbread-tilemaker
 
