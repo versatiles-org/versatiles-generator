@@ -39,4 +39,4 @@ gcloud compute instances create opencloudtiles-generator \
 
 sleep 10
 
-gcloud compute ssh opencloudtiles-generator --zone europe-west3-c --command='curl -L "https://github.com/OpenCloudTiles/opencloudtiles-generator/raw/main/bin/startup-scripts/startup_google_compute_vm.sh" | bash'
+gcloud compute ssh opencloudtiles-generator --zone europe-west3-c --command='curl -L "https://github.com/OpenCloudTiles/opencloudtiles-generator/raw/main/bin/startup-scripts/run_google_compute_vm.sh" | bash'
