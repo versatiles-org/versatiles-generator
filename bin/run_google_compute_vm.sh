@@ -1,6 +1,8 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
+set -ex
+
 # List of machine types in your zone and images
 #    gcloud compute machine-types list --zones europe-west3-c
 #    gcloud compute images list
@@ -23,9 +25,6 @@ gcloud compute instances create opencloudtiles-generator \
 	--boot-disk-size=$disk_space \
 	--machine-type=$machine_type \
 	--zone=europe-west3-c \
-	--scope=storage-rw \
-	--metadata=startup-script-url="https://github.com/OpenCloudTiles/opencloudtiles-generator/raw/main/bin/startup-scripts/startup_google_compute_vm.sh"
-	--metadata=tile_src=$tile_src
-	--metadata=tile_bbox$tile_bbox
-	--metadata=tile_name=$tile_name
-	--metadata=tile_dst$tile_dst
+	--scopes=storage-rw \
+	--metadata \
+	tile_src="$tile_src",tile_bbox="$tile_bbox",tile_name="$tile_name",tile_dst="$tile_dst",startup-script-url="https://github.com/OpenCloudTiles/opencloudtiles-generator/raw/main/bin/startup-scripts/startup_google_compute_vm.sh"
