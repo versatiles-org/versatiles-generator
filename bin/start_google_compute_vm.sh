@@ -18,7 +18,7 @@ set -ex
 
 # tile_name="eu-de-bw"; tile_src="https://download.geofabrik.de/europe/germany/baden-wuerttemberg-latest.osm.pbf"; machine_type="n2d-highcpu-4"; disk_space="200GB"
 # tile_name="eu-de-be"; tile_src="https://download.geofabrik.de/europe/germany/berlin-latest.osm.pbf"; machine_type="n2d-highcpu-8"; disk_space="200GB"
-tile_name="eu-de"; tile_src="https://download.geofabrik.de/europe/germany/https://download.geofabrik.de/europe/germany-latest.osm.pbf"; machine_type="n2d-highcpu-16"; disk_space="200GB"
+tile_name="eu-de"; tile_src="https://download.geofabrik.de/europe/germany-latest.osm.pbf"; machine_type="n2d-standard-16"; disk_space="200GB"
 # tile_name="eu"; tile_src="https://download.geofabrik.de/europe-latest.osm.pbf"; machine_type="n2d-standard-64"; disk_space="250GB"
 # tile_name="planet"; tile_src="https://planet.osm.org/pbf/planet-latest.osm.pbf.torrent"; machine_type="n2d-standard-64"; disk_space="250GB"
 
@@ -39,4 +39,4 @@ gcloud compute instances create opencloudtiles-generator \
 
 sleep 10
 
-gcloud compute ssh opencloudtiles-generator --zone europe-west3-c --command='curl -L "https://github.com/OpenCloudTiles/opencloudtiles-generator/raw/main/bin/startup-scripts/run_google_compute_vm.sh" | bash'
+gcloud compute ssh opencloudtiles-generator --zone europe-west3-c --command='curl -Ls "https://github.com/OpenCloudTiles/opencloudtiles-generator/raw/main/bin/startup-scripts/run_google_compute_vm.sh" | bash'
