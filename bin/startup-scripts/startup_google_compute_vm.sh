@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -ex
+
 script_src="https://github.com/OpenCloudTiles/opencloudtiles-generator/raw/main/bin"
 env_file="/etc/profile"
 

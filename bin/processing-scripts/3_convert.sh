@@ -1,8 +1,9 @@
 #!/bin/bash
-
 cd ~/tilemaker/build/shortbread-tilemaker
 
-aria2c -o "$TILE_NAME.osm.pbf" --seed-time=0 $TILE_SRC
+set -ex
+
+aria2c -o "$TILE_NAME.osm.pbf" --seed-time=0 "$TILE_SRC"
 
 if [ $TILE_BBOX -ge 1 ]
 then
