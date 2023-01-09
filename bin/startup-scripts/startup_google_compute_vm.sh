@@ -18,6 +18,12 @@ get_env "TILE_DST"
 
 source $env_file
 
-curl "http://metadata.google.internal/computeMetadata/v1/instance/attributes" -H "Metadata-Flavor: Google"
+curl -L "$script_src/processing-scripts/1_setup.sh" | sudo bash
+curl -L "$script_src/processing-scripts/2_prepare_tilemaker.sh" | sudo bash
+curl -L "$script_src/processing-scripts/3_convert.sh" | sudo bash
 
-curl "$script_src/processing-scripts/1_setup.sh" | bash
+cd ~/tilemaker/build/shortbread-tilemaker
+
+gsutil cp "$TILE_NAME.mbtiles" "$TILE_DST"
+
+sudo shutdown -P now
