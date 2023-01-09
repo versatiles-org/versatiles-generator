@@ -9,7 +9,7 @@ function get_env() {
 	key=$1
 	value=$(curl "http://metadata.google.internal/computeMetadata/v1/instance/attributes/$key" -H "Metadata-Flavor: Google")
 	cmd="export $key=\"$value\""
-	echo "$cmd" >> $env_file
+	sudo echo "$cmd" >> $env_file
 	eval "$cmd"
 }
 
