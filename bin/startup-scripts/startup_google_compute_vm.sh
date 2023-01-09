@@ -7,10 +7,10 @@ env_file="/etc/profile"
 
 function get_env() {
 	key=$1
-	value=$(curl "http://metadata.google.internal/computeMetadata/v1/instance/attributes/$key" -H "Metadata-Flavor: Google")
+	value=$(curl -s "http://metadata.google.internal/computeMetadata/v1/instance/attributes/$key" -H "Metadata-Flavor: Google")
 	cmd="export $key=\"$value\""
-	sudo echo "$cmd" >> $env_file
 	eval "$cmd"
+	echo "$cmd" | sudo tee -a $env_file
 }
 
 get_env "TILE_SRC"
@@ -20,9 +20,9 @@ get_env "TILE_DST"
 
 source $env_file
 
-curl -L "$script_src/processing-scripts/1_setup.sh" | sudo bash
-curl -L "$script_src/processing-scripts/2_prepare_tilemaker.sh" | bash
-curl -L "$script_src/processing-scripts/3_convert.sh" | bash
+curl -Ls "$script_src/processing-scripts/1_setup.sh" | sudo bash
+curl -Ls "$script_src/processing-scripts/2_prepare_tilemaker.sh" | bash
+curl -Ls "$script_src/processing-scripts/3_convert.sh" | bash
 
 cd ~/tilemaker/build/shortbread-tilemaker
 
