@@ -24,7 +24,7 @@ gcloud compute instances create opencloudtiles-generator \
 	--machine-type=$machine_type \
 	--zone=europe-west3-c \
 	--scope=storage-rw \
-	--metadata=startup-script-url=""
+	--metadata=startup-script-url="https://github.com/OpenCloudTiles/opencloudtiles-generator/raw/main/bin/startup-scripts/startup_google_compute_vm.sh"
 	--metadata=tile_src=$tile_src
 	--metadata=tile_bbox$tile_bbox
 	--metadata=tile_name=$tile_name
