@@ -14,4 +14,3 @@ mkdir shortbread-tilemaker
 git clone -q https://github.com/geofabrik/shortbread-tilemaker.git shortbread-tilemaker
 cd shortbread-tilemaker
 ./get-shapefiles.sh
-
