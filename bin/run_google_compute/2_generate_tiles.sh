@@ -40,7 +40,7 @@ command="export TILE_SRC=\"$tile_src\";export TILE_BBOX=\"$tile_bbox\";export TI
 command="$command; curl -Ls \"https://github.com/OpenCloudTiles/opencloudtiles-generator/raw/main/bin/basic_scripts/3_convert.sh\" | bash"
 command="$command; gsutil cp \"tilemaker/build/shortbread-tilemaker/data/$tile_name.mbtiles\" \"$tile_dst\""
 
-gcloud compute ssh opencloudtiles-generator --command="$command" --quiet
+gcloud compute ssh opencloudtiles-generator --command="$command" -- -t
 
 gcloud compute instances stop opencloudtiles-generator --quiet
 
