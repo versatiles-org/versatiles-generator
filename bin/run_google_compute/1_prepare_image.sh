@@ -40,14 +40,11 @@ fi
 
 
 
-
-
 ##########################################
 ## BUILD VM                             ##
 ##########################################
 
 # Create VM
-
 gcloud compute instances create opencloudtiles-generator \
 	--image-project=debian-cloud \
 	--image-family=debian-11 \
@@ -55,8 +52,7 @@ gcloud compute instances create opencloudtiles-generator \
 	--boot-disk-type=pd-ssd \
 	--machine-type=n2d-standard-2
 
-# Create VM
-
+# Wait till SSH is available
 sleep 10
 while ! gcloud compute ssh opencloudtiles-generator --command=ls
 do
@@ -64,19 +60,23 @@ do
 	sleep 5
 done
 
+# Setup machine
+gcloud compute ssh opencloudtiles-generator --command='curl -Ls "https://github.com/OpenCloudTiles/opencloudtiles-generator/raw/main/bin/basic_scripts/1_setup_debian.sh" | sudo bash'
 
-gcloud compute ssh opencloudtiles-generator --command='curl -Ls "https://github.com/OpenCloudTiles/opencloudtiles-generator/raw/main/bin/basic_scripts/1_setup_debian.sh" | bash'
-
+# Setup tilemaker
 gcloud compute ssh opencloudtiles-generator --command='curl -Ls "https://github.com/OpenCloudTiles/opencloudtiles-generator/raw/main/bin/basic_scripts/2_prepare_tilemaker.sh" | bash'
 
 
+
 ##########################################
-## GENERATE CUSTOM IMAGE                ##
+## GENERATE IMAGE                       ##
 ##########################################
-# source: https://cloud.google.com/compute/docs/images/create-custom
 
-gcloud compute images describe opencloudtiles --project=swr-data-1
+# Stop VM
+gcloud compute instances stop opencloudtiles-generator
 
+# Generate image
+gcloud compute images create opencloudtiles-generator --source-disk=opencloudtiles-generator
 
-
-gcloud compute instances delete opencloudtiles-generator
+# Delete Instance
+gcloud compute instances delete opencloudtiles-generator --quiet
