@@ -39,8 +39,9 @@ done
 command="export TILE_SRC=\"$tile_src\";export TILE_BBOX=\"$tile_bbox\";export TILE_NAME=\"$tile_name\""
 command="$command; curl -Ls \"https://github.com/OpenCloudTiles/opencloudtiles-generator/raw/main/bin/basic_scripts/3_convert.sh\" | bash"
 command="$command; gsutil cp \"tilemaker/build/shortbread-tilemaker/data/$tile_name.mbtiles\" \"$tile_dst\""
-command="$command; sudo shutdown -P now"
 
 gcloud compute ssh opencloudtiles-generator --command="$command" --quiet
+
+gcloud compute instances stop opencloudtiles-generator --quiet
 
 gcloud compute instances delete opencloudtiles-generator --quiet
