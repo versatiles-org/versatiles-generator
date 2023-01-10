@@ -50,7 +50,7 @@ else
 	echo "   ✅ gcloud compute/zone: $value"
 fi
 
-value=$(gcloud compute instances describe opencloudtiles-generator)
+value=$(gcloud compute instances describe opencloudtiles-generator > /dev/null)
 if [ $? -eq 0 ]; then
 	echo "   ❗️ opencloudtiles-generator machine already exist. Delete it:"
 	echo "   # gcloud compute instances delete opencloudtiles-generator -q"
@@ -58,6 +58,17 @@ if [ $? -eq 0 ]; then
 else
 	echo "   ✅ gcloud instance ready"
 fi
+
+value=$(gcloud compute images describe opencloudtiles-generator > /dev/null)
+if [ $? -ne 0 ]; then
+	echo "   ❗️ opencloudtiles-generator image does not exist. Create it:"
+	echo "   # ./1_prepare_image.sh"
+	exit 1
+else
+	echo "   ✅ gcloud image ready"
+fi
+
+
 
 set -ex
 
