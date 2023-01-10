@@ -38,6 +38,15 @@ else
 	echo "   ✅ gcloud compute/zone: $value"
 fi
 
+value=$(gcloud compute instances describe opencloudtiles-generator)
+if [ $? -eq 0 ]; then
+	echo "   ❗️ opencloudtiles-generator machine already exist. Delete it:"
+	echo "   # gcloud compute instances delete opencloudtiles-generator -q"
+	exit 1
+else
+	echo "   ✅ gcloud instance ready"
+fi
+
 
 
 ##########################################
