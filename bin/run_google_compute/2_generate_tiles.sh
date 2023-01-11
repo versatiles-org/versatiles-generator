@@ -13,11 +13,11 @@ cd "$(dirname "$0")"
 # Prepare env variables
 tile_bbox=""
 tile_dst="gs://opencloudtiles/mbtiles/"
-# tile_name="eu-de-be"; tile_src="https://download.geofabrik.de/europe/germany/berlin-latest.osm.pbf"; machine_type="n2d-highcpu-8"   # 1:22 = 0.01 $
-# tile_name="eu-de-bw"; tile_src="https://download.geofabrik.de/europe/germany/baden-wuerttemberg-latest.osm.pbf"; machine_type="n2d-highcpu-8"   # 3:05 = 0.02 $
-# tile_name="eu-de"; tile_src="https://download.geofabrik.de/europe/germany-latest.osm.pbf"; machine_type="n2d-standard-16"   # 11:13 = 0.14 $
+# tile_name="eu-de-be"; tile_src="https://download.geofabrik.de/europe/germany/berlin-latest.osm.pbf"; machine_type="n2d-highcpu-8"   # 0:01:22 = 0.01 $
+# tile_name="eu-de-bw"; tile_src="https://download.geofabrik.de/europe/germany/baden-wuerttemberg-latest.osm.pbf"; machine_type="n2d-highcpu-8"   # 0:03:05 = 0.02 $
+# tile_name="eu-de"; tile_src="https://download.geofabrik.de/europe/germany-latest.osm.pbf"; machine_type="n2d-standard-16"   # 0:11:13 = 0.14 $
 # tile_name="eu"; tile_src="https://download.geofabrik.de/europe-latest.osm.pbf"; machine_type="n2d-highmem-32"
-tile_name="planet"; tile_src="https://planet.osm.org/pbf/planet-latest.osm.pbf.torrent"; machine_type="n2d-highmem-64"
+tile_name="planet"; tile_src="https://planet.osm.org/pbf/planet-latest.osm.pbf.torrent"; machine_type="n2d-highmem-64" # 11:18:20 = 42.50 $
 
 
 value=$(gcloud config get-value project)
