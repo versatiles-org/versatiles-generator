@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 
 
 ##########################################
@@ -38,22 +36,22 @@ else
 	echo "   ✅ gcloud compute/zone: $value"
 fi
 
-value=$(gcloud compute instances describe opencloudtiles-generator > /dev/null)
+value=$(gcloud compute instances describe opencloudtiles-generator 2>&1 > /dev/null)
 if [ $? -eq 0 ]; then
 	echo "   ❗️ opencloudtiles-generator machine already exist. Delete it:"
 	echo "   # gcloud compute instances delete opencloudtiles-generator -q"
 	exit 1
 else
-	echo "   ✅ gcloud instance ready"
+	echo "   ✅ gcloud instance free"
 fi
 
-value=$(gcloud compute images describe opencloudtiles-generator > /dev/null)
+value=$(gcloud compute images describe opencloudtiles-generator 2>&1 > /dev/null)
 if [ $? -eq 0 ]; then
 	echo "   ❗️ opencloudtiles-generator image already exist. Delete it:"
 	echo "   # gcloud compute images delete opencloudtiles-generator -q"
 	exit 1
 else
-	echo "   ✅ gcloud image clean"
+	echo "   ✅ gcloud image free"
 fi
 
 
@@ -68,7 +66,7 @@ gcloud compute instances create opencloudtiles-generator \
 	--image-family=debian-11 \
 	--boot-disk-size=300GB \
 	--boot-disk-type=pd-ssd \
-	--machine-type=n2d-standard-2
+	--machine-type=n2d-highcpu-8
 
 # Wait till SSH is available
 sleep 10
