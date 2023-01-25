@@ -12,7 +12,7 @@ cd "$(dirname "$0")"
 
 # Prepare env variables
 tile_bbox=""
-tile_dst="gs://opencloudtiles/mbtiles/"
+tile_dst="gs://versatiles/mbtiles/"
 # tile_name="eu-de-be"; tile_src="https://download.geofabrik.de/europe/germany/berlin-latest.osm.pbf"; machine_type="n2d-highcpu-8"   # 0:01:22 = 0.01 $
 # tile_name="eu-de-bw"; tile_src="https://download.geofabrik.de/europe/germany/baden-wuerttemberg-latest.osm.pbf"; machine_type="n2d-highcpu-8"   # 0:03:05 = 0.02 $
 # tile_name="eu-de"; tile_src="https://download.geofabrik.de/europe/germany-latest.osm.pbf"; machine_type="n2d-standard-16"   # 0:11:13 = 0.14 $
@@ -50,18 +50,18 @@ else
 	echo "   ✅ gcloud compute/zone: $value"
 fi
 
-value=$(gcloud compute instances describe opencloudtiles-generator 2>&1 > /dev/null)
+value=$(gcloud compute instances describe versatiles-generator 2>&1 > /dev/null)
 if [ $? -eq 0 ]; then
-	echo "   ❗️ opencloudtiles-generator machine already exist. Delete it:"
-	echo "   # gcloud compute instances delete opencloudtiles-generator -q"
+	echo "   ❗️ versatiles-generator machine already exist. Delete it:"
+	echo "   # gcloud compute instances delete versatiles-generator -q"
 	exit 1
 else
 	echo "   ✅ gcloud instance free"
 fi
 
-value=$(gcloud compute images describe opencloudtiles-generator 2>&1 > /dev/null)
+value=$(gcloud compute images describe versatiles-generator 2>&1 > /dev/null)
 if [ $? -ne 0 ]; then
-	echo "   ❗️ opencloudtiles-generator image does not exist. Create it:"
+	echo "   ❗️ versatiles-generator image does not exist. Create it:"
 	echo "   # ./1_prepare_image.sh"
 	exit 1
 else
@@ -73,14 +73,14 @@ fi
 set -ex
 
 # create VM from image
-gcloud compute instances create opencloudtiles-generator \
-	--image=opencloudtiles-generator \
+gcloud compute instances create versatiles-generator \
+	--image=versatiles-generator \
 	--machine-type=$machine_type \
 	--scopes=storage-rw
 
 # Wait till SSH is available
 sleep 10
-while ! gcloud compute ssh opencloudtiles-generator --command=ls
+while ! gcloud compute ssh versatiles-generator --command=ls
 do
    echo "   SSL not available at VM, trying again..."
 	sleep 5
@@ -88,11 +88,11 @@ done
 
 # prepare command and run it via SSH
 command="export TILE_SRC=\"$tile_src\";export TILE_BBOX=\"$tile_bbox\";export TILE_NAME=\"$tile_name\""
-command="$command; curl -Ls \"https://github.com/OpenCloudTiles/opencloudtiles-generator/raw/main/bin/basic_scripts/3_convert.sh\" | bash"
+command="$command; curl -Ls \"https://github.com/versaTiles/versatiles-generator/raw/main/bin/basic_scripts/3_convert.sh\" | bash"
 command="$command; gsutil cp \"tilemaker/build/shortbread-tilemaker/data/$tile_name.mbtiles\" \"$tile_dst\""
 
-gcloud compute ssh opencloudtiles-generator --command="$command" -- -t
+gcloud compute ssh versatiles-generator --command="$command" -- -t
 
-gcloud compute instances stop opencloudtiles-generator --quiet
+gcloud compute instances stop versatiles-generator --quiet
 
-gcloud compute instances delete opencloudtiles-generator --quiet
+gcloud compute instances delete versatiles-generator --quiet

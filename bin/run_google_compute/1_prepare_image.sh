@@ -36,19 +36,19 @@ else
 	echo "   ✅ gcloud compute/zone: $value"
 fi
 
-value=$(gcloud compute instances describe opencloudtiles-generator 2>&1 > /dev/null)
+value=$(gcloud compute instances describe versatiles-generator 2>&1 > /dev/null)
 if [ $? -eq 0 ]; then
-	echo "   ❗️ opencloudtiles-generator machine already exist. Delete it:"
-	echo "   # gcloud compute instances delete opencloudtiles-generator -q"
+	echo "   ❗️ versatiles-generator machine already exist. Delete it:"
+	echo "   # gcloud compute instances delete versatiles-generator -q"
 	exit 1
 else
 	echo "   ✅ gcloud instance free"
 fi
 
-value=$(gcloud compute images describe opencloudtiles-generator 2>&1 > /dev/null)
+value=$(gcloud compute images describe versatiles-generator 2>&1 > /dev/null)
 if [ $? -eq 0 ]; then
-	echo "   ❗️ opencloudtiles-generator image already exist. Delete it:"
-	echo "   # gcloud compute images delete opencloudtiles-generator -q"
+	echo "   ❗️ versatiles-generator image already exist. Delete it:"
+	echo "   # gcloud compute images delete versatiles-generator -q"
 	exit 1
 else
 	echo "   ✅ gcloud image free"
@@ -61,7 +61,7 @@ fi
 ##########################################
 
 # Create VM
-gcloud compute instances create opencloudtiles-generator \
+gcloud compute instances create versatiles-generator \
 	--image-project=debian-cloud \
 	--image-family=debian-11 \
 	--boot-disk-size=300GB \
@@ -70,17 +70,17 @@ gcloud compute instances create opencloudtiles-generator \
 
 # Wait till SSH is available
 sleep 10
-while ! gcloud compute ssh opencloudtiles-generator --command=ls
+while ! gcloud compute ssh versatiles-generator --command=ls
 do
    echo "   SSL not available at VM, trying again..."
 	sleep 5
 done
 
 # Setup machine
-gcloud compute ssh opencloudtiles-generator --command='curl -Ls "https://github.com/OpenCloudTiles/opencloudtiles-generator/raw/main/bin/basic_scripts/1_setup_debian.sh" | sudo bash'
+gcloud compute ssh versatiles-generator --command='curl -Ls "https://github.com/versaTiles/versatiles-generator/raw/main/bin/basic_scripts/1_setup_debian.sh" | sudo bash'
 
 # Setup tilemaker
-gcloud compute ssh opencloudtiles-generator --command='curl -Ls "https://github.com/OpenCloudTiles/opencloudtiles-generator/raw/main/bin/basic_scripts/2_prepare_tilemaker.sh" | bash'
+gcloud compute ssh versatiles-generator --command='curl -Ls "https://github.com/versaTiles/versatiles-generator/raw/main/bin/basic_scripts/2_prepare_tilemaker.sh" | bash'
 
 
 
@@ -89,10 +89,10 @@ gcloud compute ssh opencloudtiles-generator --command='curl -Ls "https://github.
 ##########################################
 
 # Stop VM
-gcloud compute instances stop opencloudtiles-generator
+gcloud compute instances stop versatiles-generator
 
 # Generate image
-gcloud compute images create opencloudtiles-generator --source-disk=opencloudtiles-generator
+gcloud compute images create versatiles-generator --source-disk=versatiles-generator
 
 # Delete Instance
-gcloud compute instances delete opencloudtiles-generator --quiet
+gcloud compute instances delete versatiles-generator --quiet

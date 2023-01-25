@@ -1,11 +1,11 @@
-# OpenCloudTiles - Generator
+# versatiles - Generator
 
 The Generator uses [Tilemaker](https://github.com/systemed/tilemaker) for generating vector tiles from OSM dumps.
 
 As tile scheme it does not use the [OpenMapTiles schema](https://openmaptiles.org/schema/) because:
 - OpenMapTiles it is not "open" enough
-- there are some legal issues with CC-BY
-- It feels like a SEO campagne for a MapTiler product, because every web map has to credit OpenMapTiles, link to their website, or you have to pay a license fee.
+- some people have legal problems with CC-BY
+- It feels like a SEO campagne for a MapTiler product, because every map has to link to their website, or you have to pay a license fee.
 
 Instead the Generator uses the [Shortbread schema](https://shortbread.geofabrik.de/schema/) from [Geofabrik](https://www.geofabrik.de). It's based on the [Shortbread Tilemaker configuration](https://github.com/geofabrik/shortbread-tilemaker/).
 
