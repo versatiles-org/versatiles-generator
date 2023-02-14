@@ -99,10 +99,10 @@ do
 done
 
 # Setup machine
-gcloud compute ssh versatiles-generator --command='curl -Ls "https://github.com/versaTiles/versatiles-generator/raw/main/bin/basic_scripts/1_setup_debian.sh" | sudo bash'
+gcloud compute ssh versatiles-generator --command='curl -Ls "https://github.com/versatiles-org/versatiles-generator/raw/main/bin/basic_scripts/1_setup_debian.sh" | sudo bash'
 
 # Setup tilemaker
-gcloud compute ssh versatiles-generator --command='curl -Ls "https://github.com/versaTiles/versatiles-generator/raw/main/bin/basic_scripts/2_prepare_tilemaker.sh" | bash'
+gcloud compute ssh versatiles-generator --command='curl -Ls "https://github.com/versatiles-org/versatiles-generator/raw/main/bin/basic_scripts/2_prepare_tilemaker.sh" | bash'
 
 
 
