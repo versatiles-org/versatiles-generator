@@ -80,6 +80,8 @@ done
 ## BUILD VM                             ##
 ##########################################
 
+echo "   👷 building vm"
+
 # Create VM
 gcloud compute instances create versatiles-generator \
 	--image-project=debian-cloud \
@@ -110,9 +112,18 @@ gcloud compute ssh versatiles-generator --command='curl -Ls "https://github.com/
 
 # Stop VM
 gcloud compute instances stop versatiles-generator
+sleep 5
+
+
+
+echo "   👷 building image"
 
 # Generate image
 gcloud compute images create versatiles-generator --source-disk=versatiles-generator
+
+
+
+echo "   👷 cleaning up"
 
 # Delete Instance
 gcloud compute instances delete versatiles-generator --quiet
