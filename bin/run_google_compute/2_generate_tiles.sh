@@ -18,22 +18,22 @@ COLUMNS=1
 select source in "Berlin" "Baden-Württemberg" "Germany" "Europe" "Planet"; do
 	case $source in
 		"Berlin") # 0:01:22 = 0.01$
-			tile_name="eu-de-be"
+			tile_name="planet-europe-germany-berlin"
 			tile_src="https://download.geofabrik.de/europe/germany/berlin-latest.osm.pbf"
 			machine_type="n2d-highcpu-8"
 			break;;
 		"Baden-Württemberg") # 0:03:05 = 0.02 $
-			tile_name="eu-de-bw"
+			tile_name="planet-europe-germany-bw"
 			tile_src="https://download.geofabrik.de/europe/germany/baden-wuerttemberg-latest.osm.pbf"
 			machine_type="n2d-highcpu-8"
 			break;;
 		"Germany") # 0:11:13 = 0.14 $
-			tile_name="eu-de"
+			tile_name="planet-europe-germany"
 			tile_src="https://download.geofabrik.de/europe/germany-latest.osm.pbf"
 			machine_type="n2d-standard-16"
 			break;;
 		"Europe")
-			tile_name="eu"
+			tile_name="planet-europe"
 			tile_src="https://download.geofabrik.de/europe-latest.osm.pbf"
 			machine_type="n2d-highmem-32"
 			break;;
