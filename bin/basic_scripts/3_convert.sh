@@ -21,7 +21,7 @@ cd ..
 
 if [ ${#TILE_BBOX} -ge 1 ]
 then
-	time tilemaker --input data/prepared.osm.pbf --config config.json --process process.lua --output "data/$TILE_NAME.mbtiles" --compact --bbox $TILE_BBOX
+	time tilemaker --input data/prepared.osm.pbf --config config.json --process process.lua --output "data/output.mbtiles" --compact --bbox $TILE_BBOX
 else
-   time tilemaker --input data/prepared.osm.pbf --config config.json --process process.lua --output "data/$TILE_NAME.mbtiles" --compact
+   time tilemaker --input data/prepared.osm.pbf --config config.json --process process.lua --output "data/output.mbtiles" --compact
 fi
