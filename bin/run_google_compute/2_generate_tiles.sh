@@ -89,7 +89,7 @@ done
 # prepare command and run it via SSH
 command="export TILE_SRC=\"$tile_src\";export TILE_BBOX=\"$tile_bbox\";export TILE_NAME=\"$tile_name\""
 command="$command; curl -Ls \"https://github.com/versaTiles/versatiles-generator/raw/main/bin/basic_scripts/3_convert.sh\" | bash"
-command="$command; gsutil cp \"tilemaker/build/shortbread-tilemaker/data/$tile_name.mbtiles\" \"$tile_dst\""
+command="$command; gsutil cp \"shortbread-tilemaker/data/$tile_name.mbtiles\" \"$tile_dst\""
 
 gcloud compute ssh versatiles-generator --command="$command" -- -t
 
