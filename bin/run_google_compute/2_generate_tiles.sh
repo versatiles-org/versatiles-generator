@@ -12,12 +12,40 @@ cd "$(dirname "$0")"
 
 # Prepare env variables
 tile_bbox=""
-tile_dst="gs://versatiles/mbtiles/"
-# tile_name="eu-de-be"; tile_src="https://download.geofabrik.de/europe/germany/berlin-latest.osm.pbf"; machine_type="n2d-highcpu-8"   # 0:01:22 = 0.01 $
-# tile_name="eu-de-bw"; tile_src="https://download.geofabrik.de/europe/germany/baden-wuerttemberg-latest.osm.pbf"; machine_type="n2d-highcpu-8"   # 0:03:05 = 0.02 $
-# tile_name="eu-de"; tile_src="https://download.geofabrik.de/europe/germany-latest.osm.pbf"; machine_type="n2d-standard-16"   # 0:11:13 = 0.14 $
-# tile_name="eu"; tile_src="https://download.geofabrik.de/europe-latest.osm.pbf"; machine_type="n2d-highmem-32"
-tile_name="planet"; tile_src="https://planet.osm.org/pbf/planet-latest.osm.pbf.torrent"; machine_type="n2d-highmem-64"; tile_bbox="-180,-90,180,90" # 11:18:20 = 42.50 $
+tile_dst="gs://versatiles/download/mbtiles/"
+
+COLUMNS=1
+select source in "Berlin" "Baden-Württemberg" "Germany" "Europe" "Planet"; do
+	case $source in
+		"Berlin") # 0:01:22 = 0.01$
+			tile_name="eu-de-be"
+			tile_src="https://download.geofabrik.de/europe/germany/berlin-latest.osm.pbf"
+			machine_type="n2d-highcpu-8"
+			break;;
+		"Baden-Württemberg") # 0:03:05 = 0.02 $
+			tile_name="eu-de-bw"
+			tile_src="https://download.geofabrik.de/europe/germany/baden-wuerttemberg-latest.osm.pbf"
+			machine_type="n2d-highcpu-8"
+			break;;
+		"Germany") # 0:11:13 = 0.14 $
+			tile_name="eu-de"
+			tile_src="https://download.geofabrik.de/europe/germany-latest.osm.pbf"
+			machine_type="n2d-standard-16"
+			break;;
+		"Europe")
+			tile_name="eu"
+			tile_src="https://download.geofabrik.de/europe-latest.osm.pbf"
+			machine_type="n2d-highmem-32"
+			break;;
+		"Planet") # 11:18:20 = 42.50 $
+			tile_name="planet"
+			tile_src="https://planet.osm.org/pbf/planet-latest.osm.pbf.torrent"
+			machine_type="n2d-highmem-64"
+			tile_bbox="-180,-90,180,90"
+			break;;
+	esac
+done
+
 
 
 value=$(gcloud config get-value project)
@@ -50,16 +78,26 @@ else
 	echo "   ✅ gcloud compute/zone: $value"
 fi
 
-value=$(gcloud compute instances describe versatiles-generator 2>&1 > /dev/null)
-if [ $? -eq 0 ]; then
-	echo "   ❗️ versatiles-generator machine already exist. Delete it:"
-	echo "   # gcloud compute instances delete versatiles-generator -q"
-	exit 1
-else
-	echo "   ✅ gcloud instance free"
-fi
+while true; do
+	gcloud compute instances describe versatiles-generator &> /dev/null
+	if [ $? -eq 0 ]; then
+		echo "   ❗️ versatiles-generator machine already exist. Delete it?"
+		select yn in "Yes" "No"; do
+			case $yn in
+				Yes)
+					echo "   👷 deleting machine ..."
+					gcloud compute instances delete versatiles-generator -q;
+					break;;
+				No) exit;;
+			esac
+		done
+	else
+		echo "   ✅ gcloud instance free"
+		break
+	fi
+done
 
-value=$(gcloud compute images describe versatiles-generator 2>&1 > /dev/null)
+value=$(gcloud compute images describe versatiles-generator &> /dev/null)
 if [ $? -ne 0 ]; then
 	echo "   ❗️ versatiles-generator image does not exist. Create it:"
 	echo "   # ./1_prepare_image.sh"
@@ -67,8 +105,6 @@ if [ $? -ne 0 ]; then
 else
 	echo "   ✅ gcloud image ready"
 fi
-
-
 
 set -ex
 
@@ -80,15 +116,14 @@ gcloud compute instances create versatiles-generator \
 
 # Wait till SSH is available
 sleep 10
-while ! gcloud compute ssh versatiles-generator --command=ls
-do
-   echo "   SSL not available at VM, trying again..."
+while ! gcloud compute ssh versatiles-generator --command=ls; do
+	echo "   SSL not available at VM, trying again..."
 	sleep 5
 done
 
 # prepare command and run it via SSH
 command="export TILE_SRC=\"$tile_src\";export TILE_BBOX=\"$tile_bbox\";export TILE_NAME=\"$tile_name\""
-command="$command; curl -Ls \"https://github.com/versaTiles/versatiles-generator/raw/main/bin/basic_scripts/3_convert.sh\" | bash"
+command="$command; curl -Ls \"https://github.com/versatiles-org/versatiles-generator/raw/main/bin/basic_scripts/3_convert.sh\" | bash"
 command="$command; gsutil cp \"shortbread-tilemaker/data/$tile_name.mbtiles\" \"$tile_dst\""
 
 gcloud compute ssh versatiles-generator --command="$command" -- -t
