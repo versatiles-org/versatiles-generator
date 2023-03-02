@@ -1,5 +1,5 @@
 #!/bin/bash
-cd ~/shortbread-tilemaker/data
+cd ~/shortbread-tilemaker/data/
 
 set -ex
 
@@ -17,7 +17,7 @@ osmium renumber --progress -o prepared.osm.pbf input.osm.pbf
 
 rm input.osm.pbf
 
-cd ..
+cd ~/shortbread-tilemaker/
 
 if [ ${#TILE_BBOX} -ge 1 ]
 then
