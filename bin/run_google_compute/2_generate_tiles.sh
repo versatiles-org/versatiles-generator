@@ -1,7 +1,7 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
-set -e
+# set -e
 
 # machine_type="n2d-highmem-2";  # 16 GB RAM
 # machine_type="n2d-highmem-4";  # 32 GB RAM
