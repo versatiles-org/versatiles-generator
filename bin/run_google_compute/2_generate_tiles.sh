@@ -46,8 +46,8 @@ select source in "Berlin" "Baden-Württemberg" "Germany" "Europe" "Planet"; do
 			date=$(curl -s "https://planet.osm.org/pbf/" | egrep -o 'href="planet-([0-9]{6}).osm.pbf"' | sed -n 's/.*-\([0-9]\{6\}\)\..*/\1/p' | sort | tail -n1)
 			tile_src="https://planet.osm.org/pbf/planet-$date.osm.pbf.torrent"
 			tile_dst="gs://versatiles/download/planet/planet-20$date.mbtiles"
-			machine_type="n2d-highmem-64"
-			tile_bbox="-180,-90,180,90"
+			machine_type="n2d-highmem-80"
+			tile_bbox="-180,-86,180,86"
 			break;;
 	esac
 done
