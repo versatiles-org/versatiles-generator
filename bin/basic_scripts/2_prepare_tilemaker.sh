@@ -2,9 +2,9 @@
 set -ex
 
 cd ~
-git clone -q --branch z-order-float https://github.com/geofabrik/tilemaker.git tilemaker
+git clone -q https://github.com/systemed/tilemaker.git tilemaker
 cd tilemaker
-make -s
+make "CONFIG=-DFLOAT_Z_ORDER"
 sudo make install
 
 cd ~
