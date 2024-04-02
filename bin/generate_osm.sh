@@ -1,0 +1,53 @@
+#!/bin/bash
+cd "$(dirname "$0")"
+
+# set -e
+
+# machine_type="n2d-highmem-2";  # 16 GB RAM
+# machine_type="n2d-highmem-4";  # 32 GB RAM
+# machine_type="n2d-highmem-8";  # 64 GB RAM
+# machine_type="n2d-highmem-16"; # 128 GB RAM
+# machine_type="n2d-highmem-32"; # 256 GB RAM
+# machine_type="n2d-highmem-64"; # 512 GB RAM
+
+# file_size * 7 = needed RAM
+
+COLUMNS=1
+select source in "Berlin" "Baden-Württemberg" "Germany" "Europe" "Planet"; do
+	case $source in
+		"Berlin")
+			DATE=$(curl -s "https://download.geofabrik.de/europe/germany/berlin.html" | egrep -o 'href="berlin-([0-9]{6}).osm.pbf"' | sed -n 's/.*-\([0-9]\{6\}\)\..*/\1/p' | sort | tail -n1)
+			TILE_URL="https://download.geofabrik.de/europe/germany/berlin-$DATE.osm.pbf"
+			TILE_NAME="osm.berlin.20$DATE"
+			TILE_BBOX="13.0,52.3,13.8,52.7"
+			break;;
+		"Baden-Württemberg")
+			DATE=$(curl -s "https://download.geofabrik.de/europe/germany/baden-wuerttemberg.html" | egrep -o 'href="baden-wuerttemberg-([0-9]{6}).osm.pbf"' | sed -n 's/.*-\([0-9]\{6\}\)\..*/\1/p' | sort | tail -n1)
+			TILE_URL="https://download.geofabrik.de/europe/germany/baden-wuerttemberg-$DATE.osm.pbf"
+			TILE_NAME="osm.bw.20$DATE"
+			TILE_BBOX="7.5,47.5,10.6,49.8"
+			break;;
+		"Germany")
+			DATE=$(curl -s "https://download.geofabrik.de/europe/germany.html" | egrep -o 'href="germany-([0-9]{6}).osm.pbf"' | sed -n 's/.*-\([0-9]\{6\}\)\..*/\1/p' | sort | tail -n1)
+			TILE_URL="https://download.geofabrik.de/europe/germany-$DATE.osm.pbf"
+			TILE_NAME="osm.germany.20$DATE"
+			TILE_BBOX="5.8,47.2,15.1,55.2"
+			break;;
+		"Europe")
+			DATE=$(curl -s "https://download.geofabrik.de/europe.html" | egrep -o 'href="europe-([0-9]{6}).osm.pbf"' | sed -n 's/.*-\([0-9]\{6\}\)\..*/\1/p' | sort | tail -n1)
+			TILE_URL="https://download.geofabrik.de/europe-$DATE.osm.pbf"
+			TILE_NAME="osm.europe.20$DATE"
+			TILE_BBOX="-34.5,29.6,46.8,81.5"
+			break;;
+		"Planet")
+			DATE=$(curl -s "https://planet.osm.org/pbf/" | egrep -o 'href="planet-([0-9]{6}).osm.pbf"' | sed -n 's/.*-\([0-9]\{6\}\)\..*/\1/p' | sort | tail -n1)
+			TILE_URL="https://planet.osm.org/pbf/planet-$DATE.osm.pbf.torrent"
+			TILE_NAME="osm.planet.20$DATE"
+			TILE_BBOX="-180,-86,180,86"
+			break;;
+	esac
+done
+
+mkdir -p result
+docker pull versatiles/versatiles-tilemaker
+docker run -it --rm --privileged --mount="type=bind,source=$(pwd)/result,target=/app/result" versatiles/versatiles-tilemaker generate_tiles.sh $TILE_URL $TILE_NAME $TILE_BBOX
