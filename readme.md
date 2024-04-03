@@ -5,5 +5,6 @@ The Generator uses [Tilemaker](https://github.com/systemed/tilemaker) for genera
 # run
 
 ```bash
-curl "https://raw.githubusercontent.com/versatiles-org/versatiles-generator/main/bin/generate_osm.sh" | bash
+wget -O generate_osm.sh "https://raw.githubusercontent.com/versatiles-org/versatiles-generator/main/bin/generate_osm.sh"
+bash generate_osm.sh
 ```
