@@ -41,4 +41,4 @@ done
 
 mkdir -p result
 docker pull versatiles/versatiles-tilemaker
-docker run -it --rm --privileged --mount="type=bind,source=$(pwd)/result,target=/app/result" versatiles/versatiles-tilemaker generate_tiles.sh $TILE_URL $TILE_NAME $TILE_BBOX
+docker run -it --rm --privileged --mount="type=bind,source=$(pwd),target=/app/result" versatiles/versatiles-tilemaker generate_tiles.sh $TILE_URL $TILE_NAME $TILE_BBOX
