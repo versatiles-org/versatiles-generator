@@ -1,16 +1,7 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
-# set -e
-
-# machine_type="n2d-highmem-2";  # 16 GB RAM
-# machine_type="n2d-highmem-4";  # 32 GB RAM
-# machine_type="n2d-highmem-8";  # 64 GB RAM
-# machine_type="n2d-highmem-16"; # 128 GB RAM
-# machine_type="n2d-highmem-32"; # 256 GB RAM
-# machine_type="n2d-highmem-64"; # 512 GB RAM
-
-# file_size * 7 = needed RAM
+set -e
 
 COLUMNS=1
 select source in "Berlin" "Baden-Württemberg" "Germany" "Europe" "Planet"; do
