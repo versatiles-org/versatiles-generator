@@ -1,7 +1,7 @@
 #!/bin/bash
-cd "$(dirname "$0")"
-
 set -e
+
+apt -qqqy install lftp
 
 COLUMNS=1
 select source in "Berlin" "Baden-Württemberg" "Germany" "Europe" "Planet"; do
@@ -33,12 +33,15 @@ select source in "Berlin" "Baden-Württemberg" "Germany" "Europe" "Planet"; do
 		"Planet")
 			DATE=$(curl -s "https://planet.osm.org/pbf/" | egrep -o 'href="planet-([0-9]{6}).osm.pbf"' | sed -n 's/.*-\([0-9]\{6\}\)\..*/\1/p' | sort | tail -n1)
 			TILE_URL="https://planet.osm.org/pbf/planet-$DATE.osm.pbf.torrent"
-			TILE_NAME="osm.planet.20$DATE"
+			TILE_NAME="osm.20$DATE"
 			TILE_BBOX="-180,-86,180,86"
 			break;;
 	esac
 done
 
-mkdir -p result
 docker pull versatiles/versatiles-tilemaker
 docker run -it --rm --privileged --mount="type=bind,source=$(pwd),target=/app/result" versatiles/versatiles-tilemaker generate_tiles.sh $TILE_URL $TILE_NAME $TILE_BBOX
+
+md5sum "$TILE_NAME.versatiles" | awk '{ print $1 }' > "$TILE_NAME.versatiles.md5"
+sha256sum "$TILE_NAME.versatiles" | awk '{ print $1 }' > "$TILE_NAME.versatiles.sha256"
+lftp ftp://download-versatiles-org@storage.bunnycdn.com:21 -e "mput $TILE_NAME.*; exit"
