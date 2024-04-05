@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e
 
-apt -qqqy install lftp
-
 COLUMNS=1
 select source in "Berlin" "Baden-Württemberg" "Germany" "Europe" "Planet"; do
 	case $source in
