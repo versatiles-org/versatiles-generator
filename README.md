@@ -11,9 +11,8 @@ Since we use this script to generate our tiles, we also use `lftp` in the last l
 ## System Requirements
 
 - Debian
-- Docker
+- [Docker](https://docs.docker.com/engine/install/)
 - Bash, md5sum, sha256sum
-- `apt -qy install lftp` (if you want to upload the results via FTP)
 
 ## Run
 

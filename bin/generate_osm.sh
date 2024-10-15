@@ -37,9 +37,7 @@ select source in "Berlin" "Baden-Württemberg" "Germany" "Europe" "Planet"; do
 	esac
 done
 
-docker pull versatiles/versatiles-tilemaker
 docker run -it --rm --privileged --mount="type=bind,source=$(pwd),target=/app/result" versatiles/versatiles-tilemaker generate_tiles.sh $TILE_URL $TILE_NAME $TILE_BBOX
 
-md5sum "$TILE_NAME.versatiles" | awk '{ print $1 }' > "$TILE_NAME.versatiles.md5"
-sha256sum "$TILE_NAME.versatiles" | awk '{ print $1 }' > "$TILE_NAME.versatiles.sha256"
-lftp ftp://download-versatiles-org@storage.bunnycdn.com:21 -e "mput $TILE_NAME.*; exit"
+md5sum "$TILE_NAME.versatiles" > "$TILE_NAME.versatiles.md5"
+sha256sum "$TILE_NAME.versatiles" > "$TILE_NAME.versatiles.sha256"
