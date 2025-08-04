@@ -37,7 +37,7 @@ select source in "Berlin" "Baden-Württemberg" "Germany" "Europe" "Planet"; do
 	esac
 done
 
-docker run -it --rm --privileged --mount="type=bind,source=$(pwd),target=/app/result" versatiles/versatiles-tilemaker $TILE_URL $TILE_NAME $TILE_BBOX
+docker run -it --rm --privileged --mount="type=bind,source=$(pwd),target=/app" versatiles/versatiles-tilemaker $TILE_URL $TILE_NAME $TILE_BBOX
 
 md5sum "$TILE_NAME.versatiles" > "$TILE_NAME.versatiles.md5"
 sha256sum "$TILE_NAME.versatiles" > "$TILE_NAME.versatiles.sha256"
