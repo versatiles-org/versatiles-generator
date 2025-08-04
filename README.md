@@ -12,10 +12,22 @@ Since we use this script to generate our tiles, we also use `lftp` in the last l
 
 - Debian
 - [Docker](https://docs.docker.com/engine/install/)
-- Bash, md5sum, sha256sum
+- Bash, md5sum, sha256sum (part of Debian coreutils)
 
-## Run
+## Install
 
 ```bash
-curl "https://raw.githubusercontent.com/versatiles-org/versatiles-generator/main/bin/generate_osm.sh" | bash -i
+apt-get update
+apt-get upgrade
+apt-get install bash tmux coreutils
+curl -fsSL https://get.docker.com | sh
+
+curl "https://raw.githubusercontent.com/versatiles-org/versatiles-generator/main/bin/generate_osm.sh" -o generate_osm.sh
+chmod +x generate_osm.sh
+tmux
+````
+
+## Run
+```
+./generate_osm.sh
 ```
