@@ -2,9 +2,9 @@
 
 # VersaTiles Generator
 
-The Generator uses [Tilemaker](https://tilemaker.org) and [Shortbread](https://shortbread-tiles.org) to generate vector tiles from [OSM dumps](https://planet.osm.org/pbf/).
+The Generator uses [Planetiler](https://github.com/onthegomap/planetiler) and [Shortbread](https://shortbread-tiles.org) to generate vector tiles from [OSM dumps](https://planet.osm.org/pbf/).
 
-To make it even easier, we have prepared a [Docker image](https://github.com/versatiles-org/versatiles-docker) (on [Docker Hub](https://hub.docker.com/r/versatiles/versatiles-tilemaker) and [GitHub's ghcr.io](https://github.com/versatiles-org/versatiles-docker/pkgs/container/versatiles-tilemaker)) that contains [Tilemaker](https://github.com/systemed/tilemaker), the [Shortbread configuration for Tilemaker](https://github.com/versatiles-org/shortbread-tilemaker), [additional geometries](https://github.com/versatiles-org/shortbread-tilemaker/blob/versatiles/get-shapefiles.sh), [VersaTiles](https://github.com/versatiles-org/versatiles-rs) for tile compression and packaging, and scripts to manage it all.
+To make it even easier, we have prepared a [Docker image](https://github.com/versatiles-org/versatiles-docker/tree/main/versatiles-planetiler) (on [Docker Hub](https://hub.docker.com/r/versatiles/versatiles-planetiler) and [GitHub's ghcr.io](https://github.com/versatiles-org/versatiles-docker/pkgs/container/versatiles-planetiler)) that contains [Planetiler](https://github.com/onthegomap/planetiler), the [Shortbread profile for Planetiler](https://github.com/versatiles-org/versatiles-docker/tree/main/versatiles-planetiler), [VersaTiles](https://github.com/versatiles-org/versatiles-rs) for tile compression and packaging, and scripts to manage it all.
 
 Take a look at the bottom of [`bin/generate_osm.sh`](https://github.com/versatiles-org/versatiles-generator/blob/main/bin/generate_osm.sh#L40) to see how to fetch and run the Docker container.
 
