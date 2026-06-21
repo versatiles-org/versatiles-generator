@@ -1,3 +1,5 @@
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
 # VersaTiles Generator
 
 The Generator uses [Tilemaker](https://tilemaker.org) and [Shortbread](https://shortbread-tiles.org) to generate vector tiles from [OSM dumps](https://planet.osm.org/pbf/).
